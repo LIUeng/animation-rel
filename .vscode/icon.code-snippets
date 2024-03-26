@@ -1,0 +1,15 @@
+{
+  "icon": {
+    "prefix": ["icon", "LIUeng's icon"],
+    "body": "<link rel=\"shortcut icon\" href=\"favicon.ico\" type=\"image/x-icon\">",
+    "description": "Get my LIUeng's icon"
+  },
+  "line-comment": {
+    "prefix": ["LIUeng's line comment"],
+    "body": "$LINE_COMMENT ${1:1|2|3}",
+  },
+  "block-comment": {
+    "prefix": ["LIUeng's block comment"],
+    "body": ["$BLOCK_COMMENT_START ${1} $BLOCK_COMMENT_END"]
+  },
+}

@@ -1,11 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>翻页时钟</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="index.css">
+
+  <style>
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .flip {
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+      width: 100px;
+      height: 120px;
+      font-weight: bold;
+      border-radius: 2px;
+      background-color: #000;
+      position: relative;
+      display: inline-block;
+    }
+
+    .play li.flip-before {
+      z-index: 3;
+    }
+
+    ul.flip li {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      line-height: 120px;
+    }
+
+    ul.flip li div.up {
+      transform-origin: 50% 100%;
+      top: 0;
+    }
+
+    ul.flip li div {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      font-size: 120px;
+      overflow: hidden;
+      outline: 1px solid transparent;
+    }
+
+    ul.flip::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      left: 0;
+      top: 50%;
+      background-color: var(--color-bg-primary);
+      transform: translateY(-50%);
+      z-index: 6;
+    }
+
+    ul.flip li div div.shadow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    ul.flip li div div.inn {
+      font-family: 'DINCondensedBold';
+      position: absolute;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 200%;
+      color: #ccc;
+      text-shadow: 0 1px 2px #000;
+      text-align: center;
+      background-color: #333;
+      border-radius: 6px;
+    }
+
+    ul.flip li div.down {
+      transform-origin: 50% 0;
+      bottom: 0;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+
+    ul.play li.flip-before .down .shadow {
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0.1)), color-stop(100%, #000));
+      animation: show .5s linear both;
+    }
+
+    ul.play li.flip-active .down .shadow {
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000), color-stop(100%, rgba(0, 0, 0, 0.1)));
+      animation: hide .5s .2s linear both;
+    }
+
+    ul.flip li div.down div.inn {
+      bottom: 0;
+    }
+
+    ul.play li {
+      height: 100%;
+      perspective: 2000px;
+    }
+
+    .flip:nth-child(2n) {
+      margin-left: 8px;
+    }
+
+    .flip:nth-child(2n + 3) {
+      margin-left: 24px;
+    }
+
+    ul.play li.flip-active {
+      z-index: 5;
+      animation: asd .5s .5s linear both;
+    }
+
+    .play li.flip-before .up {
+      z-index: 2;
+      animation: turn2 .5s linear both;
+    }
+
+    ul.play li.flip-active .down {
+      z-index: 2;
+      animation: turn .5s .5s linear both;
+    }
+
+    @keyframes turn2 {
+      0% {
+        transform: rotateX(0deg);
+      }
+
+      100% {
+        transform: rotateX(-90deg);
+      }
+    }
+
+    @keyframes turn {
+      0% {
+        transform: rotateX(-90deg);
+      }
+
+      100% {
+        transform: rotateX(0);
+      }
+    }
+
+    @keyframes asd {
+      0% {
+        z-index: 2;
+      }
+
+      20% {
+        z-index: 4;
+      }
+
+      100% {
+        z-index: 4;
+      }
+    }
+
+    @keyframes show {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes hide {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  
+  <!-- 时分秒 -->
+  <div class="flip-wrapper">
+    <!-- <ul class="flip play">
+      <li class="flip-before">
+        <div class="up">
+          <div class="shadow"></div>
+          <div class="inn">4</div>
+        </div>
+        <div class="down">
+          <div class="shadow"></div>
+          <div class="inn">4</div>
+        </div>
+      </li>
+      <li class="flip-active">
+        <div class="up">
+          <div class="shadow"></div>
+          <div class="inn">6</div>
+        </div>
+        <div class="down">
+          <div class="shadow"></div>
+          <div class="inn">6</div>
+        </div>
+      </li>
+    </ul> -->
+  </div>
+
+  <script>
+    // 创建内部容器
+    const createInnerDiv = (className, text) => {
+      const div = document.createElement('div');
+      div.classList.add(className);
+
+      const shadowDiv = document.createElement('div');
+      shadowDiv.classList.add('shadow');
+
+      const innDiv = document.createElement('div');
+      innDiv.classList.add('inn');
+      innDiv.textContent = text;
+
+      div.appendChild(shadowDiv);
+      div.appendChild(innDiv);
+
+      return div;
+    };
+
+    // 创建片段
+    const createFlipItem = (className, text) => {
+      const li = document.createElement('li');
+      li.classList.add(className);
+
+      const upDiv = createInnerDiv('up', text);
+      const downDiv = createInnerDiv('down', text);
+
+      li.appendChild(upDiv);
+      li.appendChild(downDiv);
+
+      return li;
+    };
+
+    // 创建整个
+    const createFlip = (beforeText, activeText) => {
+      const ul = document.createElement('ul');
+      ul.classList.add('flip');
+      ul.classList.add('play');
+
+      const beforeLi = createFlipItem('flip-before', beforeText);
+      const activeLi = createFlipItem('flip-active', activeText);
+
+      ul.appendChild(beforeLi);
+      ul.appendChild(activeLi);
+
+      return {
+        ul,
+        beforeLi,
+        activeLi,
+      };
+    }
+
+    // 获取日期
+    const getDate = () => {
+      const date = new Date();
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      let seconds = date.getSeconds();
+
+      hours = hours < 10 ? '0' + hours : hours + '';
+      minutes = minutes < 10 ? '0' + minutes : minutes + '';
+      seconds = seconds < 10 ? '0' + seconds : seconds + '';
+
+      return {
+        hours: hours.split(''),
+        minutes: minutes.split(''),
+        seconds: seconds.split(''),
+      }
+    };
+
+    let prevDate = getDate();
+    const wrapper = document.querySelector('.flip-wrapper');
+    const creatCloak = (group = [], curDate, groupName) => {
+      let lastGroupCloak = prevDate[groupName];
+      let groupCloak = curDate[groupName];
+
+      groupCloak.forEach((txt, i) => {
+        let lastTxt = lastGroupCloak[i];
+        let flips = group[i] || createFlip(lastTxt, txt);
+        const { ul, beforeLi, activeLi } = flips;
+
+        if (!group[i]) {
+          wrapper.appendChild(ul);
+          group[i] = flips;
+        }
+
+        if (lastTxt === txt) return;
+
+        activeLi.className = 'flip-before';
+        beforeLi.remove();
+
+        const newActiveLi = createFlipItem('flip-active', txt);
+        ul.appendChild(newActiveLi);
+
+        flips.beforeLi = activeLi;
+        flips.activeLi = newActiveLi;
+      });
+    };
+
+    // 执行
+    const run = (() => {
+      let secondsGroup = [];
+      let hoursGroup = [];
+      let minutesGroup = [];
+      let filpInterval = (date) => {
+        creatCloak(hoursGroup, date, 'hours');
+        creatCloak(minutesGroup, date, 'minutes');
+        creatCloak(secondsGroup, date, 'seconds');
+      }
+      filpInterval(prevDate);
+      setInterval(() => {
+        let curDate = getDate();
+        filpInterval(curDate);
+        prevDate = curDate;
+      }, 1e3);
+    })();
+  </script>
 </body>
+
 </html>

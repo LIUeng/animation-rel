@@ -3,6 +3,46 @@ body {
   padding: 0;
 }
 
-*, *::after, *::before {
+*,
+*::after,
+*::before {
   box-sizing: border-box;
+}
+
+:root {
+  --color-primary-1: #FFE6E6;
+  --color-primary-2: #E1AFD1;
+  --color-primary-3: #AD88C6;
+  --color-primary-4: #7469B6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-primary: #000;
+    --color-border: #fff;
+  }
+
+  body {
+    background-color: var(--color-bg-primary);
+    color: #fff;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg-primary: #fff;
+    --color-border: #000;
+  }
+
+  body {
+    background-color: var(--color-bg-primary);
+    color: #000;
+  }
+}
+
+body {
+  height: 100vh;
+  display: grid;
+  align-content: center;
+  justify-content: center;
 }

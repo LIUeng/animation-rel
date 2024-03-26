@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>扩散</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .container {
+      position: relative;
+      width: 512px;
+      height: 512px;
+      background-color: var(--color-primary-4);
+    }
+
+    .box {
+      height: 100%;
+      width: 100%;
+      background-color: var(--color-primary-2);;
+    }
+
+    @keyframes ani-point {
+      0% {
+        clip-path: circle(0);
+      }
+
+      100% {
+        clip-path: circle(512px);
+      }
+    }
+
+    .point {
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      animation: ani-point 2s both ease-out alternate-reverse infinite;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="point">
+      <div class="box"></div>
+    </div>
+  </div>
+</body>
+
+</html>

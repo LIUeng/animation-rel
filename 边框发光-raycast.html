@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动画 - 边框发光_raycast</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .outer {
+      width: 800px;
+      position: relative;
+      background: linear-gradient(0deg, rgba(22, 4, 8, .5), rgba(22, 4, 8, .5)), linear-gradient(100.41deg, #ff5b37 .52%, #ab0052 100.52%);
+      box-shadow: 0 0 27px rgba(173, 40, 40, .48);
+      border-radius: 16px;
+      overflow: hidden;
+      transform: translateZ(0);
+      padding: 4px;
+    }
+
+    .inner {
+      position: absolute;
+      inset: 0;
+      top: 50%;
+      left: 0;
+      height: 100%;
+      background: conic-gradient(transparent 50deg, #ff4874 80deg, transparent 100deg);
+      filter: blur(8px);
+      border-radius: 16px;
+      transform-origin: center;
+      will-change: transform;
+      animation: ani -.64s linear 4s infinite;
+      aspect-ratio: 6.3/1;
+    }
+
+    .inner1 {
+      position: relative;
+      border: 1px solid hsla(0, 0%, 100%, .1);
+      border-radius: 12px;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      padding: 40px;
+      background: linear-gradient(0deg, rgba(22, 4, 8, .96), rgba(22, 4, 8, .96)), linear-gradient(100.41deg, #ff5b37 .52%, #ab0052 100.52%);
+    }
+
+    @keyframes ani {
+      0% {
+        transform: translateY(-25%) translateX(40%) rotate(0deg);
+      }
+
+      30% {
+        transform: translateY(0) translateX(0) rotate(90deg) scaleX(.7);
+      }
+
+      50% {
+        transform: translateY(-25%) translateX(-40%) rotate(180deg);
+      }
+
+      70% {
+        transform: translateY(0) translateX(0) rotate(270deg) scaleX(.7);
+      }
+
+      100% {
+        transform: translateY(-25%) translateX(40%) rotate(1turn);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="outer">
+    <div class="inner"></div>
+    <div class="inner1">111211111111111111112222222222222</div>
+  </div>
+</body>
+
+</html>

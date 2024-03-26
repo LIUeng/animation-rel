@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>翻页时钟2</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="翻页时钟-flip.css">
+
+  <style>
+    .tick-front-rotate {
+      animation: front-rotate 10s both linear;
+    }
+
+    .tick-back-rotate {
+      animation: back-rotate 10s both linear;
+    }
+
+    .tick-card-z-index {
+      animation: z-index 5s 5s both linear;
+    }
+
+    .shadow-animate {
+      animation: shadow-ani 10s both linear;
+    }
+
+    .opacity-animate {
+      animation: opacity-ani 10s both linear;
+    }
+
+    @keyframes front-rotate {
+      0% {
+        transform: rotateX(0);
+      }
+
+      100% {
+        transform: rotateX(-180deg);
+      }
+    }
+
+    @keyframes z-index {
+      0% {
+        z-index: 10;
+      }
+
+      100% {
+        z-index: 2;
+      }
+    }
+
+    @keyframes back-rotate {
+      0% {
+        transform: rotateX(-180deg);
+      }
+
+      100% {
+        transform: rotateX(-360deg);
+      }
+    }
+
+    @keyframes shadow-ani {
+      0% {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scaleY(0);
+      }
+    }
+
+    @keyframes opacity-ani {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="tick">
+    <span data-view="flip" class="tick-flip">
+      <span class="tick-flip-card">
+        <span class="tick-flip-panel-front tick-flip-front tick-flip-panel" style="transform: rotateX(0deg);">
+          <span class="tick-flip-panel-front-text">
+            <span class="tick-flip-panel-text-wrapper">9</span>
+          </span>
+          <span class="tick-flip-panel-front-shadow" style="opacity: 0;"></span>
+        </span>
+        <span class="tick-flip-panel-back tick-flip-back tick-flip-panel" style="transform: rotateX(-180deg);">
+          <span class="tick-flip-panel-back-text">
+            <span class="tick-flip-panel-text-wrapper"></span>
+          </span>
+          <span class="tick-flip-panel-back-highlight" style="opacity: 2;"></span>
+          <span class="tick-flip-panel-back-shadow"></span>
+        </span>
+      </span>
+      <span class="tick-flip-card tick-card-z-index">
+        <span class="tick-flip-panel-front tick-flip-front tick-flip-panel tick-front-rotate">
+          <span class="tick-flip-panel-front-text">
+            <span class="tick-flip-panel-text-wrapper">8</span>
+          </span>
+          <span class="tick-flip-panel-front-shadow" style="opacity: 0;"></span>
+        </span>
+        <span class="tick-flip-panel-back tick-flip-back tick-flip-panel tick-back-rotate">
+          <span class="tick-flip-panel-back-text">
+            <span class="tick-flip-panel-text-wrapper">9</span>
+          </span>
+          <span class="tick-flip-panel-back-highlight opacity-animate" cursorshover="true"></span>
+          <span class="tick-flip-panel-back-shadow" style="opacity: 0;"></span>
+        </span>
+      </span>
+      <span class="tick-flip-card">
+        <span class="tick-flip-panel-front tick-flip-front tick-flip-panel" style="transform: rotateX(-180deg);">
+          <span class="tick-flip-panel-front-text">
+            <span class="tick-flip-panel-text-wrapper">7</span>
+          </span>
+          <span class="tick-flip-panel-front-shadow" style="opacity: 0;"></span>
+        </span>
+        <span class="tick-flip-panel-back tick-flip-back tick-flip-panel" style="transform: rotateX(-360deg);">
+          <span class="tick-flip-panel-back-text">
+            <span class="tick-flip-panel-text-wrapper">8</span>
+          </span>
+          <span class="tick-flip-panel-back-highlight" style="opacity: 0;" cursorshover="true"></span>
+          <span class="tick-flip-panel-back-shado opacity-animate"></span>
+        </span>
+      </span>
+      <span class="tick-flip-spacer">9</span>
+      <span class="tick-flip-shadow-top tick-flip-shadow tick-flip-front"></span>
+      <span class="tick-flip-shadow-bottom tick-flip-shadow tick-flip-back"></span>
+      <span class="tick-flip-card-shadow shadow-animate"></span>
+    </span>
+  </div>
+</body>
+
+</html>
