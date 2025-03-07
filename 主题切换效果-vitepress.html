@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主题切换效果-Vitepress</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation: none;
+            mix-blend-mode: normal
+        }
+
+        ::view-transition-old(root) {
+            z-index: 1
+        }
+
+        ::view-transition-new(root) {
+            z-index: 2147483646
+        }
+
+        .dark::view-transition-old(root) {
+            z-index: 2147483646
+        }
+
+        .dark::view-transition-new(root) {
+            z-index: 1
+        }
+
+        :root {
+            --color: #000;
+            --bg-color: #fff;
+        }
+
+        .dark:root {
+            --color: #fff;
+            --bg-color: #000;
+        }
+
+        html {
+            color: var(--color);
+            background-color: var(--bg-color);
+        }
+    </style>
+</head>
+
+<body style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <button id="toggleTheme">Toggle Theme</button>
+    <script>
+        let isDark = false;
+        let innerHeight = window.innerHeight;
+        let innerWidth = window.innerWidth;
+        const toggleThemeButton = document.getElementById('toggleTheme');
+        toggleThemeButton.addEventListener('click', async (e) => {
+            let { clientX: x, clientY: y } = e;
+            const clipPath = [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${Math.hypot(
+                    Math.max(x, innerWidth - x),
+                    Math.max(y, innerHeight - y)
+                )}px at ${x}px ${y}px)`
+            ]
+
+            await document.startViewTransition(async () => {
+                isDark = !isDark;
+                document.documentElement.classList.toggle('dark');
+                // await new Promise(r => setTimeout(r, 300))
+            }).ready
+
+            document.documentElement.animate(
+                { clipPath: isDark ? clipPath.reverse() : clipPath },
+                {
+                    duration: 300,
+                    easing: 'ease-in',
+                    pseudoElement: `::view-transition-${isDark ? 'old' : 'new'}(root)`
+                }
+            )
+        })
+
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        const changeTheme = (e) => {
+            isDark = e.matches ? true : false;
+            document.documentElement.classList[isDark ? 'add' : 'remove']('dark')
+        };
+        mediaQuery.addEventListener('change', (e) => changeTheme(e));
+        // init
+        changeTheme(mediaQuery);
+    </script>
+</body>
+
+</html>
